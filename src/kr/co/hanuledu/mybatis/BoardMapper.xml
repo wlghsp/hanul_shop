@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+ <mapper namespace="kr.co.hanuledu.mybatis.BoardMapper.xml">
+ 	<select id="selBoardList" resultType="kr.co.hanuledu.dto.BoardDTO" parameterType="map">
+ 		<![CDATA[
+	 		SELECT *
+			FROM (SELECT ROWNUM RNUM,
+	             		a.*
+	      		FROM (SELECT *
+	            	  FROM board
+	            	  WHERE articleNo > 0 
+	    ]]>
+	    	<include refid="search"></include>
+	    <![CDATA[        	  	
+	            	  ORDER BY ref DESC, re_step ASC) a)
+			WHERE RNUM BETWEEN (#{section} - 1)*100 + (#{pageNum} - 1)*10+1 AND (#{section} -1)*100 + #{pageNum}*10
+ 		]]>
+ 	</select>
+ 	<select id="boardListAllCnt" resultType="Integer" parameterType="map" >
+ 		<![CDATA[
+	 		SELECT COUNT(articleNo) 
+	 		FROM board
+	 		WHERE articleNo > 0
+ 		]]>
+ 		<include refid="search"></include>
+ 	</select>
+ 	<select id="selectBoardView" parameterType="Integer" resultType="kr.co.hanuledu.dto.BoardDTO">
+			SELECT *
+			FROM board
+			WHERE articleno = #{articleNo}
+ 	</select>
+ 	<select id="getNewArticleNo" resultType="Integer">
+ 		SELECT NVL(MAX(articleNo), 0)
+ 		FROM board	
+ 	</select>
+ 	<insert id="createBoard" parameterType="kr.co.hanuledu.dto.BoardDTO">
+ 		INSERT INTO board(articleNo, subject, content, reg_date, ref, re_step, re_level, fileName, id, lock_post)
+ 		VALUES(board_seq.nextval, #{subject}, #{content}, sysdate, #{ref}, #{re_step}, #{re_level}, #{fileName}, #{id}, #{lock_post})
+ 		<selectKey resultType="Integer" keyProperty="articleNo" order="AFTER">
+         	SELECT board_seq.currval FROM dual
+      	</selectKey>
+ 	</insert> 
+ 	<update id="modifyBoard" parameterType="kr.co.hanuledu.dto.BoardDTO">
+ 		UPDATE board    
+		<set>
+	      <if test="subject != null">subject=#{subject},</if>
+	      <if test="content != null">content=#{content},</if>
+	      <if test="fileName != null">filename=#{fileName},</if>
+	      reg_date=sysdate
+        </set>
+		WHERE articleno = #{articleNo} 
+ 	</update>
+ 	<update id="deleteBoard" parameterType="Integer">
+ 	 	UPDATE board
+ 	 	SET show ='n'
+ 		WHERE articleno = #{articleNo} 
+ 	</update>
+ 	<select id="selectBoardReplyMaxOrder" resultType="int" parameterType="kr.co.hanuledu.dto.BoardDTO">
+ 		<![CDATA[
+	 		SELECT NVL(MAX(re_step), 0)
+			FROM board
+			WHERE ref = #{ref}
+			AND re_step > #{re_step}
+			AND re_level <= #{re_level} 
+		]]>
+ 	</select>
+ 	<select id="selectReStep" resultType="int" parameterType="kr.co.hanuledu.dto.BoardDTO">
+ 		SELECT NVL(MAX(re_step), 0) + 1
+ 		FROM board
+ 		WHERE ref = #{ref}
+ 	</select>
+ 	<update id="replyReStepUpdate" parameterType="Integer" >
+ 		<![CDATA[
+ 			UPDATE board
+ 			SET re_step = re_step + 1 
+ 			WHERE ref = #{ref}
+ 			AND re_step > #{re_step}
+ 		]]>
+ 	</update>
+ 	<update id="updateReadCnt">
+ 			UPDATE board
+ 			SET readcount = readcount + 1 
+ 			WHERE articleno = #{articleNo} 
+ 	</update>
+ 	<sql id="search">
+ 		<if test="searchType != null">
+ 			<if test="searchType == 't'.toString()">
+ 				AND UPPER(subject) LIKE '%'||UPPER(#{searchKeyword})||'%'
+ 			</if>
+ 			<if test="searchType == 'c'.toString()">
+ 				AND UPPER(content) LIKE '%'||UPPER(#{searchKeyword})||'%'
+ 			</if>
+ 			<if test="searchType == 'w'.toString()">
+ 				AND UPPER(id) LIKE '%'||UPPER(#{searchKeyword})||'%'
+ 			</if>
+ 			<if test="searchType == 'tc'.toString()">
+ 				AND (UPPER(subject) LIKE '%'||UPPER(#{searchKeyword}||'%' OR UPPER(content) LIKE '%'||UPPER(#{searchKeyword})||'%')
+ 			</if>
+ 			<if test="searchType == 'cw'.toString()">
+ 				AND (UPPER(content) LIKE '%'||UPPER(#{searchKeyword})||'%' OR UPPER(id) LIKE '%'||UPPER(#{searchKeyword})||'%')
+ 			</if>
+ 			<if test="searchType == 'tcw'.toString()">
+ 				AND (UPPER(subject) LIKE '%'||UPPER(#{searchKeyword})||'%' 
+ 					 OR UPPER(content) LIKE '%'||UPPER(#{searchKeyword})||'%' 
+ 					 OR id LIKE '%'||UPPER(#{searchKeyword})||'%')
+ 			</if>
+ 		</if>
+ 	</sql>
+ 	
+ </mapper>

@@ -1,0 +1,181 @@
+@charset "UTF-8";
+
+body {
+	background-color: #fff;
+	margin: 0;
+	padding: 0;
+	font-size: 0.75em;
+}
+/* 헤더 스타일*/
+#wrap {
+	width: 971px;
+	text-align: left;
+	margin: 0;
+	margin-left: auto;
+	margin-right: auto;
+	background-color: #fff;
+	background-repeat: repeat-y;
+	min-height: 100px;
+}
+
+#logo {
+	float: left;
+	width: 180px;
+	height: 100px;
+	margin: 10px 0 0 40px;	
+	
+}
+
+#catagory_menu {
+	float: right;
+	margin: 20px 64px 0 0;
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+nav#catagory_menu ul {
+	list-style: none;
+}
+
+nav#catagory_menu ul li {
+	display: block;
+	height: 30px;
+	float: left;
+	font-family: 굴림;
+}
+
+nav#catagory_menu a {
+	text-decoration: none;
+	display: inline-block;
+	width: 80px;
+	text-align: center;
+	color: #808080;
+	font-weight: bold;
+}
+
+nav#catagory_menu a:hover {
+	color: #F90;
+	font-weight: bold;
+}
+
+#index {
+	width: 971px;
+	margin: 0 auto;;
+}
+div#front{
+	margin: 5px 0 5px 20px;
+}
+#newProduct {
+	border: solid 1px #FFFFFF;
+	border-radius: 10px;
+	width: 910px;
+	min-height: 340px;
+	background: #ebebeb;
+	padding: 10px;
+	text-align: center; 
+	margin: 0 auto;
+}
+#bestProduct {
+	border: solid 1px #FFFFFF;
+	border-radius: 10px;
+	width: 910px;
+	min-height: 260px;
+	background: #ebebeb;
+	padding: 10px;
+	text-align: center; 
+	margin: 0 auto;
+	margin-bottom: 30px;
+}
+
+#item {
+	width: 200px;
+	float: left;
+	margin: 0 13px;
+	text-align: center;
+}
+
+#item img {
+	width: 190px;
+	height: 200px;
+}
+
+#main_img {
+	text-align: center;
+
+}
+
+#main_img img {
+	margin: 30px 0 0 0	;
+}
+
+article {
+	float: right;
+	width: 680px;	
+	padding-right: 10px;
+	font-family: Verdana, Geneva, sans-serif;
+	font-size: 1em;
+	line-height: 1.5em;
+}
+
+
+form fieldset {
+	padding: 10px 0 20px 5px;
+	border: none;
+}
+
+
+form fieldset legend {
+	font-size: 20px;
+	border-bottom: 1px dotted #666;
+	width: 600px;
+	padding: 5px 0;
+}
+
+form label {
+	width: 140px;
+	border: 1px solid #999;
+	background-color: #FCFDEA;
+}
+
+form #buttons {
+	margin: 20px 0 0 0;
+}
+
+form .submit, form .cancel {
+	height: 30px;
+	width: 150px;
+	border: 1px solid #666;
+	border-radius: 10px;
+	box-shadow: 3px 3px 2px #ccc;
+	font-size: 14px;
+	background-repeat: repeat-x;
+	background-position: center center;
+	color: #808080;
+	margin: 0 0 0 20px;
+}
+/* 풋터 스타일 */
+#copy{
+	width: 971px;
+	text-align: left;
+	margin: 0 auto;
+	margin-top: 10px;
+}
+
+/* 게시글작성 폼 */
+#boardForm {
+	width: 971px;
+	margin: 0 auto;
+
+}
+#articleForm {
+	width: 850px;
+	margin: 0 auto;
+}
+
+
+
+
+
+
+
+
+
